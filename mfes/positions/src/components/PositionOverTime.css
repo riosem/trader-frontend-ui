@@ -1,0 +1,61 @@
+/* PositionOverTime.css */
+
+/* General Container */
+.position-over-time-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white; /* Match the background with other components */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  transition: transform 0.2s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.position-over-time-container:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+}
+
+/* Title Styling */
+.position-over-time-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+/* Chart Container */
+.chart-container {
+  position: relative;
+  height: 400px; /* Set a fixed height for the chart */
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .position-over-time-container {
+    padding: 15px;
+  }
+
+  .position-over-time-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .chart-container {
+    height: 300px; /* Adjust chart height for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .position-over-time-container {
+    padding: 10px;
+  }
+
+  .position-over-time-container h2 {
+    font-size: 1.2rem;
+  }
+
+  .chart-container {
+    height: 250px; /* Further adjust chart height for mobile screens */
+  }
+}

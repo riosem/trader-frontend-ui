@@ -1,0 +1,133 @@
+#!/bin/bash
+
+# $ENV
+# $REGION
+# $ACTION
+# $APP
+
+ARGS="$@"
+
+ACTION=$1
+
+run_unit_tests(){
+    vars=$(get_vars)
+    cd ./app
+    pytest -m unit_tests -vv $vars --cov=. --cov-config=.coveragerc || exit 1
+    cd ..
+}
+
+run_func_tests(){
+    cd ./app
+    cd ..
+}
+
+run_func_tests_analyze(){
+    cd ./app
+    cd ..
+}
+
+install_terraform_dependencies(){
+    cd ./terraform
+    ./tf install
+    cd ..
+}
+
+list_distributions(){
+    # List all distributions
+    cd ./terraform
+    APP=$APP ENV=$ENV REGION=$REGION ./tf list-distributions service
+}
+
+deploy_terraform_plan_service(){
+    if [ $ENV == "local" ]; then
+        echo "Not implemented"
+    else
+        cd ./terraform
+        APP=$APP ENV=$ENV REGION=$REGION ./tf plan service
+        cd ..
+    fi
+}
+
+deploy_terraform_apply_service(){
+    if [ $ENV == "local" ]; then
+        echo "Not implemented"
+    else
+        cd ./terraform
+        APP=$APP ENV=$ENV REGION=$REGION ./tf apply service
+        cd ..
+    fi
+}
+
+deploy_terraform_plan_destroy_service(){
+    if [ $ENV == "local" ]; then
+        echo "Not implemented"
+    else
+        cd ./terraform
+        APP=$APP ENV=$ENV REGION=$REGION ./tf plan-destroy service
+        cd ..
+    fi
+}
+
+deploy_terraform_apply_destroy_service(){
+    if [ $ENV == "local" ]; then
+        echo "Not implemented"
+    else
+        cd ./terraform
+        APP=$APP ENV=$ENV REGION=$REGION ./tf apply-destroy service
+        cd ..
+    fi
+}
+
+clean_distributions(){
+    cd ./terraform/service
+    rm -f distributions.json
+    cd ..
+}
+
+cleanup_terraform_files(){
+    rm -r ./terraform/roles/.terraform || :
+    rm -r ./terraform/service/.terraform || :
+}
+
+get_vars(){
+    res=""
+    for arg in $ARGS;
+    do
+        if [ $arg != $ACTION ]; then
+            res+="$arg "
+        fi
+    done
+    echo $res 
+}
+
+echo $ACTION $ENV $REGION
+
+if [ $ACTION == "deploy-service" ];
+then
+    echo "Deploying Service"
+    install_terraform_dependencies
+    list_distributions
+    deploy_terraform_plan_service
+    deploy_terraform_apply_service
+    cleanup_terraform_files
+    clean_distributions
+elif [ $ACTION == "destroy-service" ];
+then
+    echo "Destroying Service"
+    install_app_dependencies
+    deploy_terraform_plan_destroy_service
+    deploy_terraform_apply_destroy_service
+    cleanup_terraform_files
+elif [ $ACTION == "unit-tests" ];
+then
+    echo "Running Unit Tests"
+    run_unit_tests
+elif [ $ACTION == "func-tests" ];
+then
+    echo "Running Functional Tests"
+    run_func_tests
+elif [ $ACTION == "func-tests-analyze" ];
+then
+    echo "Running Functional Tests Analyze"
+    run_func_tests_analyze
+fi

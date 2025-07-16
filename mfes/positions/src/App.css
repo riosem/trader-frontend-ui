@@ -1,0 +1,148 @@
+/* App Container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-y: auto;
+  align-items: flex-start; /* Shift everything to the left */
+  padding-left: 32px;      /* Optional: add some left padding */
+}
+
+/* Main Content */
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 0 20px 0;
+  align-items: flex-start; /* Left align all children */
+  width: 100%;
+}
+
+/* Section Styling */
+.kpi-section,
+.calendar-section,
+.table-section,
+.chart-section {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 0 20px 0; /* Remove auto-centering, add bottom margin */
+  text-align: left;    /* Left align text in sections */
+}
+
+/* Remove centering from calendar container if present */
+.position-calendar-container {
+  align-items: flex-start !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Responsive Design (optional, keep as needed) */
+@media (max-width: 768px) {
+  .app-main {
+    padding: 15px 0 15px 0;
+  }
+  .kpi-section,
+  .calendar-section,
+  .table-section,
+  .chart-section {
+    padding: 15px;
+  }
+}
+
+.app-main-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.calendar-section {
+  flex: 1 1 350px;
+  min-width: 320px;
+}
+
+.positions-list-section {
+  flex: 1 1 350px;
+  min-width: 320px;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  padding: 20px;
+  margin-left: 0;
+  /* Add these: */
+  height: 540px;         /* Match calendar height (adjust as needed) */
+  overflow-y: auto;      /* Enable vertical scrolling */
+  display: flex;
+  flex-direction: column;
+}
+
+.positions-list-section h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.positions-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.position-list-item {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: #f4fff4;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: 1px solid #e0e0e0;
+  position: relative;
+}
+
+.position-list-item:hover {
+  background: #e8f5e9;
+}
+
+.position-type.entry {
+  color: #1976d2;
+  font-weight: bold;
+}
+
+.position-type.exit {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.position-tooltip {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 9999;
+  background: #222;
+  color: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  min-width: 260px;
+  max-width: 400px;
+  white-space: pre-wrap;
+  font-size: 0.95em;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .app-main-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .positions-list-section {
+    margin-top: 24px;
+  }
+}

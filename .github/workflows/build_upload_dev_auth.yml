@@ -1,0 +1,48 @@
+name: Deploy DEV React Auth to S3
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        type: string
+        required: true
+        description: 'Enter the region'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: |
+          cd ./mfes/auth
+          npm install
+      
+      - name: Generate env files
+        run: |
+          cd ./mfes/auth
+          echo "AUTH0_CLIENT_ID=${{ secrets.AUTH0_FRONTEND_UI_CLIENT_ID }}" >> .env
+          echo "AUTH0_DOMAIN=${{ secrets.AUTH0_OAUTH_URL }}" >> .env
+          echo "PROXY_API_BASE_URL=${{ secrets.PROXY_API_BASE_URL }}" >> .env
+          echo "AUTH0_SCOPE=${{ secrets.AUTH0_SCOPE }}" >> .env
+
+      - name: Build the application
+        run: |
+          cd ./mfes/auth
+          npm run build
+
+      - name: Deploy to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          cd ./mfes/auth
+          aws s3 sync dist/ s3://${{ secrets.FRONTEND_AUTH_BUCKET }} --delete

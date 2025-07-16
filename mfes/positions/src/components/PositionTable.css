@@ -1,0 +1,59 @@
+/* PositionTable.css */
+
+.position-table-container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1200px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .position-table-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .table-container {
+    overflow-x: auto; /* Enable horizontal scrolling for smaller screens */
+  }
+  
+  .position-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    text-align: left;
+  }
+  
+  .position-table th,
+  .position-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }
+  
+  .position-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .position-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .position-table tr:hover {
+    background-color: #ddd;
+  }
+  
+  .position-table td {
+    color: #333;
+  }

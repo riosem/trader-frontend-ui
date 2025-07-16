@@ -1,0 +1,93 @@
+#!/bin/bash
+
+DIR=$2
+WORKSPACE="$APP-$DIR-$ENV"
+
+install_reqs() {
+    # Install Terraform
+    wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+    sudo apt update && sudo apt install terraform
+
+    # python reqs
+    pip install boto3 click
+}
+
+run_init(){
+    tf_vars=$(get_tf_vars "$@")
+    set_up_s3_state
+    cd ./$DIR
+    terraform init $tf_vars
+    terraform workspace select -or-create=true $WORKSPACE
+    cd ..
+}
+
+run_plan(){
+    run_init
+    tf_vars=$(get_tf_vars "$@")
+    cd ./$DIR
+    terraform plan $tf_vars
+    cd ..
+}
+
+run_apply(){
+    run_init
+    tf_vars=$(get_tf_vars "$@")
+    cd ./$DIR
+    terraform apply $tf_vars -auto-approve
+    cd ..
+}
+
+run_plan_destroy(){
+    run_init
+    tf_vars=$(get_tf_vars "$@")
+    cd ./$DIR
+    terraform plan -destroy $tf_vars
+    cd ..
+}
+
+run_apply_destroy(){
+    run_init
+    tf_vars=$(get_tf_vars "$@")
+    cd ./$DIR
+    terraform apply -destroy $tf_vars -auto-approve
+    cd ..
+}
+
+get_tf_vars(){
+    vars=()
+    vars+="-var region=$REGION "
+    vars+="-var env=$ENV "
+    vars+="-var app=$APP "
+    echo "${vars[@]}" 
+}
+
+list_distributions(){
+    cd ./$DIR
+    aws cloudfront list-distributions --query "DistributionList.Items" --output json | \
+    jq --arg env "$ENV" '.[] | select(.Origins.Items[].DomainName | contains($env)) | .DomainName' | \
+    tr '\t' '\n' | \
+    awk '{print "https://" $0}' | \
+    jq -R . | jq -s . >> distributions.json
+}
+
+case $1 in
+    install )
+        install_reqs "$@" ;;
+    output-db-version )
+        output_db_version "$@" ;;
+    output-db-creds )
+        output_db_creds "$@" ;;
+    init )
+        run_init "$@" ;;
+    plan )
+        run_plan "$@" ;;
+    apply )
+        run_apply "$@" ;;
+    plan-destroy )
+        run_plan_destroy "$@" ;;
+    apply-destroy )
+        run_apply_destroy "$@" ;;
+    list-distributions )
+        list_distributions "$@" ;;
+esac 
