@@ -220,10 +220,8 @@ Each microfrontend has its own webpack configuration for Module Federation:
 ### 🔮 Planned Features
 
 #### User Experience
-- **Progressive Web App (PWA)**: Offline support and native app-like experience
 - **Advanced Charting**: TradingView integration for professional charts
 - **Real-time Notifications**: Push notifications for price alerts and order updates
-- **Voice Commands**: Voice-controlled trading interface
 - **Mobile App**: React Native mobile application
 
 #### Technical Improvements
@@ -232,13 +230,6 @@ Each microfrontend has its own webpack configuration for Module Federation:
 - **Server-Side Rendering**: Next.js integration for improved SEO and performance
 - **Edge Computing**: CloudFlare Workers for ultra-low latency
 - **GraphQL**: Unified data layer with GraphQL federation
-
-#### Trading Features
-- **Advanced Order Types**: Stop-loss, take-profit, bracket orders
-- **Portfolio Analytics**: Risk analysis, performance metrics, and backtesting
-- **Social Trading**: Copy trading and social features
-- **Algorithmic Trading**: Visual strategy builder and backtesting
-- **Options Trading**: Options chains, Greeks, and strategy analysis
 
 #### Infrastructure & DevOps
 - **Kubernetes Deployment**: Container orchestration for scalability
@@ -250,8 +241,6 @@ Each microfrontend has its own webpack configuration for Module Federation:
 #### Integration & APIs
 - **Multiple Broker Integration**: Support for various trading platforms
 - **Market Data Providers**: Real-time data from multiple sources
-- **Payment Processing**: Cryptocurrency and fiat payment integration
-- **Third-party Tools**: Integration with popular trading tools and platforms
 
 ### 🤝 Contributing
 
@@ -261,14 +250,6 @@ We welcome contributions! Areas where help is needed:
 - **Testing**: Expand test coverage and add E2E tests
 - **Documentation**: Improve setup guides and API documentation
 - **Features**: Implement any of the planned enhancements above
-
-### 📅 Roadmap
-
-- **Q1 2025**: PWA support, advanced charting, real-time notifications
-- **Q2 2025**: Mobile app, SSR implementation, GraphQL migration
-- **Q3 2025**: Kubernetes deployment, multi-region CDN, social features
-- **Q4 2025**: Algorithmic trading, options support, advanced analytics
-
 ---
 
 ## 📋 Getting Help
